@@ -32,7 +32,7 @@ func TestRaftSetLeader(t *testing.T) {
 			t.Fatalf("Could not get state")
 		}
 		if state.Term != int64(1) {
-			t.Logf("Server %d should be in term %d, but in %d", idx, 1, state.Term)
+			t.Logf("SSServer %d should be in term %d, but in %d", idx, 1, state.Term)
 			t.Fatalf("Server %d should be in term %d", idx, 1)
 		}
 		if idx == leaderIdx {
@@ -196,6 +196,7 @@ func TestMy3(t *testing.T) {
 		BlockHashList: nil,
 	}
 	go test.Clients[0].UpdateFile(test.Context, filemeta)
+	t.Logf("RRRRRRREEEESSSSSTTTOORRE!!!!")
 	test.Clients[1].Restore(test.Context, &emptypb.Empty{})
 	test.Clients[2].Restore(test.Context, &emptypb.Empty{})
 	test.Clients[0].SendHeartbeat(test.Context, &emptypb.Empty{})
@@ -249,16 +250,19 @@ func TestMy4(t *testing.T) {
 		t.FailNow()
 	}
 	//client1 syncs
+	t.Logf("NNNNNNN0000000000000000000000")
 	err = SyncClient("localhost:8080", "test0", BLOCK_SIZE, cfgPath)
 	if err != nil {
 		t.Fatalf("Sync failed")
 	}
+	t.Logf("NNNNNNN1111111111111111111111")
 	test.Clients[0].SendHeartbeat(test.Context, &emptypb.Empty{})
 	//client2 syncs
 	err = SyncClient("localhost:8080", "test1", BLOCK_SIZE, cfgPath)
 	if err != nil {
 		t.Fatalf("Sync failed")
 	}
+	t.Logf("NNNNNNN2222222222222222222222222222")
 	test.Clients[1].Crash(test.Context, &emptypb.Empty{})
 	test.Clients[2].Crash(test.Context, &emptypb.Empty{})
 
@@ -298,6 +302,7 @@ func TestMy5(t *testing.T) {
 	go test.Clients[0].UpdateFile(test.Context, filemeta)
 	//test.Clients[0].SendHeartbeat(test.Context, &emptypb.Empty{})
 	go test.Clients[0].UpdateFile(test.Context, filemeta2)
+	t.Logf("RRRRRRREEEESSSSSTTTOORRE!!!!")
 	time.Sleep(1001 * time.Millisecond)
 	//test.Clients[0].SendHeartbeat(test.Context, &emptypb.Empty{})
 	term := int64(1)
